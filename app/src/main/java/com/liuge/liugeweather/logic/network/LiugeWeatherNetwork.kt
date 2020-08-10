@@ -17,11 +17,25 @@ import kotlin.coroutines.suspendCoroutine
  */
 object LiugeWeatherNetwork {
     private val placeService = ServiceCreator.create(PlaceService::class.java)
-    // suspend,协程 这里对所有Call<T>定义了一个扩展方法await,里面对数据进行了处理和封装
-    //
+    private val weatherService = ServiceCreator.create(WeatherService::class.java)
+
+    /**
+     * 搜索最近几天天气的API
+     */
+    suspend fun getDailyWeather(lng:String,lat:String) = weatherService.getDailyWeather(lng,lat).await()
+
+    /**
+     * 搜索实时天气的API
+     */
+    suspend fun getRealtimeWeather(lng:String,lat:String) = weatherService.getRealtimeWeather(lng,lat).await()
+
+    /**
+     * 搜索全球地区的API接口，调用了自己定义的await函数来简化写法。
+     */
     suspend fun searchPlaces(query:String) = placeService.searchPlaces(query).await()
 
     /**
+     * suspend,协程 这里对所有Call<T>定义了一个扩展方法await,里面对数据进行了处理和封装
      * 使用协程的写法来简化Retrofit回调
      */
     private suspend fun <T> Call<T>.await():T{
@@ -44,5 +58,6 @@ object LiugeWeatherNetwork {
             }
         })
         }
+
     }
 }

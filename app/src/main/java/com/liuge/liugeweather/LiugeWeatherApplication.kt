@@ -11,7 +11,7 @@ import android.content.Context
  */
 class LiugeWeatherApplication:Application() {
     companion object{
-        const val TOKEN = "我的令牌值"
+        const val TOKEN = "0Id8aRHvCNACQeNF"
          lateinit var context:Context
     }
 
